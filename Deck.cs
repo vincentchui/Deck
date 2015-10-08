@@ -15,39 +15,120 @@ namespace Deck
         "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD", "AS",
         "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S",
         "JS", "QS", "KS"};
+        private string[] deckH1 = new string[26];
+        private string[] deckH2 = new string[26];
+        private string[] shuffleDeck = new string[52];
 
-        private string[] shuffleD;
-
-        public void setDeck(string[] initialState)
+        public void menu()
         {
+            string choice;
 
+            do
+            {
+                Console.Write("\nShuffle, compare or Quit: ");
+                choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "shuffle":
+                        for (int i = 0; i < 25; i++)
+                        {
+                            deckH1[i] = "";
+                            deckH2[i] = "";
+                        }
+
+                        for (int i = 0; i < 52; i++)
+                        {
+                            shuffleDeck[i] = "";
+                        }
+                        halveDeck();
+                        break;
+                    case "compare":
+                        if ((deckH1 != null) || (deckH2 != null))
+                        {
+                            equals(deckH1, deckH2);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nRUN SHUFFLE BEFORE COMPARE");
+                        }
+                        break;
+                    case "quit":
+                        Console.WriteLine("\nGoodbye");
+                        break;
+                    default:
+                        Console.WriteLine("\nINVALID OPTION");
+                        break;
+                }
+            } while (choice != "quit");
+        }
+
+        public void equals(string[] a, string[] b)
+        {
+            bool match = true;
+
+            for(int i = 0; i < 52; i++)
+            {
+                if(a[i] == b[i])
+                {
+                    break;
+                }
+                else
+                {
+                    match = false;
+                }
+            }
+
+            if (match == true)
+            {
+                Console.WriteLine("\nMATCHING DECKS");
+            } 
+            else
+            {
+                Console.WriteLine("\nNONMATCHING DECKS");
+            }
+        }
+
+        public void halveDeck()
+        {
+            int x = 0;
+
+            for(int i = 0; i < 25; i++)
+            {
+                deckH1[i] = initialState[i];
+            }
+
+            for(int i = 26; i < 52; i++)
+            {
+                deckH2[x] = initialState[i];
+                x++;
+            }
         }
 
         public void shuffle(string[] deck)
         {
+            bool match = false;
 
+            for(int i = 0; i < 25; i++)
+            {
+                deckH1[i] = initialState[i];
+                for(int x = 0; x < 52; x++)
+                {
+                    if(shuffleDeck[x] != initialState[x])
+                    {
+                        match = false;
+                    }
+                    else
+                    {
+                        match = true;
+                    }
+                }
+            }
         }
 
         public void toString(string[] deck)
         {
             Console.WriteLine(deck);
-        }
-
-        public void equals(string[] aDeck, string[] bDeck)
-        {
-            int match = 0;
-            int mismatch = 0;
-
-            for(int i = 0; i < aDeck.Length; i++)
-            {
-                if(aDeck[i] == bDeck[i])
-                {
-                    match++;
-                } else
-                {
-                    mismatch++;
-                }
-            }
         }
 
         public void getIndex(string[] shuffleD)
@@ -69,9 +150,9 @@ namespace Deck
             Console.Write("\nWhat card to search for? ");
             search = Console.ReadLine().ToUpper();
 
-            for(int i = 0; i < shuffleD.Length; i++)
+            for(int i = 0; i < shuffleDeck.Length; i++)
             {
-                if(search == shuffleD[i])
+                if(search == shuffleDeck[i])
                 {
                     index = i;
                     Console.WriteLine(search + "was found in index " + index);

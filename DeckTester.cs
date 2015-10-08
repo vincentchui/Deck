@@ -10,6 +10,9 @@ namespace Deck
     {
         static void Main(string[] args)
         {
+            Deck d = new Deck();
+
+            d.menu();
         }
     }
 }
