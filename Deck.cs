@@ -25,7 +25,7 @@ namespace Deck
 
             do
             {
-                Console.Write("\nShuffle, compare or Quit: ");
+                Console.Write("\nShuffle, Compare or Quit: ");
                 choice = Console.ReadLine();
 
                 switch (choice)
@@ -69,13 +69,10 @@ namespace Deck
 
             for(int i = 0; i < 52; i++)
             {
-                if(a[i] == b[i])
-                {
-                    break;
-                }
-                else
+                if(a[i] != b[i])
                 {
                     match = false;
+                    break;
                 }
             }
 
@@ -98,30 +95,32 @@ namespace Deck
                 deckH1[i] = initialState[i];
             }
 
-            for(int i = 26; i < 52; i++)
+            for(int i = 26; i < 51; i++)
             {
                 deckH2[x] = initialState[i];
                 x++;
             }
         }
 
-        public void shuffle(string[] deck)
+        public void shuffle()
         {
             bool match = false;
 
             for(int i = 0; i < 25; i++)
             {
-                deckH1[i] = initialState[i];
-                for(int x = 0; x < 52; x++)
+                
+                for(int x = 0; x < 51; x++)
                 {
-                    if(shuffleDeck[x] != initialState[x])
-                    {
-                        match = false;
-                    }
-                    else
+                    if(shuffleDeck[x] == initialState[x])
                     {
                         match = true;
+                        if(match == true)
+                        {
+                            Console.WriteLine("\nShuffled deck matches initial deck");
+                            menu();
+                        }
                     }
+                    
                 }
             }
         }
