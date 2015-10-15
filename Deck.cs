@@ -22,6 +22,7 @@ namespace Deck
         public void menu()
         {
             string choice;
+            bool match = false;
 
             do
             {
@@ -41,7 +42,12 @@ namespace Deck
                         {
                             shuffleDeck[i] = "";
                         }
-                        halveDeck();
+
+                        do {
+                            shuffleDeck = shuffle(shuffleDeck);
+                            ToString();
+                            match = equals(shuffleDeck, initialState);
+                        } while (match != true);
                         break;
                     case "compare":
                         if ((deckH1 != null) || (deckH2 != null))
@@ -63,13 +69,13 @@ namespace Deck
             } while (choice != "quit");
         }
 
-        public void equals(string[] a, string[] b)
+        public bool equals(string[] shuffleDeck, string[] initialState)
         {
             bool match = true;
 
             for(int i = 0; i < 52; i++)
             {
-                if(a[i] != b[i])
+                if(shuffleDeck[i] != initialState[i])
                 {
                     match = false;
                     break;
@@ -79,58 +85,69 @@ namespace Deck
             if (match == true)
             {
                 Console.WriteLine("\nMATCHING DECKS");
+                return true;
             } 
             else
             {
                 Console.WriteLine("\nNONMATCHING DECKS");
+                return false;
             }
         }
 
-        public void halveDeck()
+        public string[] shuffle(string[] shuffleDeck)
         {
-            int x = 0;
+            string[] tempDeck = new string[52];
+            string[] deckHalf1 = new string[26];
+            string[] deckHalf2 = new string[26];
 
-            for(int i = 0; i < 25; i++)
+            int z = 0;
+
+            int j = 0;
+            int k = 1;
+
+            for(int i = 0; i < 52; i++)
             {
-                deckH1[i] = initialState[i];
+                tempDeck[i] = "";
             }
 
-            for(int i = 26; i < 51; i++)
+            for (int x = 0; x < 25; x++)
             {
-                deckH2[x] = initialState[i];
-                x++;
+                deckHalf1[x] = shuffleDeck[x];
             }
+
+            for (int y = 26; y < 51; y++)
+            {
+                deckHalf2[z] = shuffleDeck[y];
+                z++;
+
+            }
+
+            for (int i = 0; i < 25; i++)
+            {
+                tempDeck[j] = deckHalf1[i];
+
+                j = j + 2;
+
+                tempDeck[k] = deckHalf2[i];
+
+                k = k + 2;
+            }
+
+            return tempDeck;
         }
 
-        public void shuffle()
+        public void ToString(string[] deck)
         {
-            bool match = false;
-
-            for(int i = 0; i < 25; i++)
+            for(int i = 0; i < 4; i++)
             {
-                
-                for(int x = 0; x < 51; x++)
+                for (int x = 0; x < 13; x++)
                 {
-                    if(shuffleDeck[x] == initialState[x])
-                    {
-                        match = true;
-                        if(match == true)
-                        {
-                            Console.WriteLine("\nShuffled deck matches initial deck");
-                            menu();
-                        }
-                    }
-                    
+                    Console.WriteLine(deck[(i * 13) + x] + " ");
                 }
             }
         }
 
-        public void toString(string[] deck)
-        {
-            Console.WriteLine(deck);
-        }
-
-        public void getIndex(string[] shuffleD)
+        public void getIndex(string[] shuffleDeck)
         {
             int index;
 
@@ -138,7 +155,7 @@ namespace Deck
             index = Console.Read();
 
             Console.WriteLine("The card in index " + index +
-                " was the " + shuffleD[index]);
+                " was the " + shuffleDeck[index]);
         }
 
         public void getCard()
