@@ -15,29 +15,23 @@ namespace Deck
         "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD", "AS",
         "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S",
         "JS", "QS", "KS"};
-        private string[] deckH1 = new string[26];
-        private string[] deckH2 = new string[26];
         private string[] shuffleDeck = new string[52];
 
         public void menu()
         {
             string choice;
+            string choice2;
             bool match = false;
             int x = 0;
 
             do
             {
-                Console.Write("\nShuffle, Compare or Quit: ");
+                Console.Write("\nShuffle, Draw card, or Quit: ");
                 choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "shuffle":
-                        for (int i = 0; i < 26; i++)
-                        {
-                            deckH1[i] = "";
-                            deckH2[i] = "";
-                        }
 
                         for (int i = 0; i < 52; i++)
                         {
@@ -50,21 +44,31 @@ namespace Deck
                         }
 
                         do {
+                            Console.WriteLine("\nSHUFFLE #" + (x + 1));
                             shuffleDeck = shuffle(shuffleDeck);
                             ToString(shuffleDeck);
                             match = equals(shuffleDeck, initialState);
                             x++;                         
                         } while ((match != true) || (x == 20));
                         break;
-                    case "compare":
-                        if ((deckH1 != null) || (deckH2 != null))
-                        {
-                            equals(deckH1, deckH2);
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nRUN SHUFFLE BEFORE COMPARE");
-                        }
+                    case "draw card":
+                        do { 
+                            Console.Write("\nDraw card by index or value? ");
+                            choice2 = Console.ReadLine().ToLower();
+                        
+                            if (choice2 == "index")
+                            {
+                                getIndex(shuffleDeck);
+                            }
+                            else if (choice2 == "value")
+                            {
+                                getCard(shuffleDeck);
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nINVALID OPTION");
+                            }
+                        } while ((choice2 != "index") || (choice2 == "value"));
                         break;
                     case "quit":
                         Console.WriteLine("\nGoodbye");
@@ -150,6 +154,7 @@ namespace Deck
                 {
                     Console.Write(deck[(i * 13) + x] + " ");
                 }
+                Console.WriteLine();
             }
         }
 
@@ -164,7 +169,7 @@ namespace Deck
                 " was the " + shuffleDeck[index]);
         }
 
-        public void getCard()
+        public void getCard(string[] shuffleDeck)
         {
             string search;
             int index;
