@@ -23,6 +23,7 @@ namespace Deck
         {
             string choice;
             bool match = false;
+            int x = 0;
 
             do
             {
@@ -32,7 +33,7 @@ namespace Deck
                 switch (choice)
                 {
                     case "shuffle":
-                        for (int i = 0; i < 25; i++)
+                        for (int i = 0; i < 26; i++)
                         {
                             deckH1[i] = "";
                             deckH2[i] = "";
@@ -43,11 +44,17 @@ namespace Deck
                             shuffleDeck[i] = "";
                         }
 
+                        for (int i = 0; i < 52; i++)
+                        {
+                            shuffleDeck[i] = initialState[i];
+                        }
+
                         do {
                             shuffleDeck = shuffle(shuffleDeck);
-                            ToString();
+                            ToString(shuffleDeck);
                             match = equals(shuffleDeck, initialState);
-                        } while (match != true);
+                            x++;                         
+                        } while ((match != true) || (x == 20));
                         break;
                     case "compare":
                         if ((deckH1 != null) || (deckH2 != null))
@@ -78,7 +85,6 @@ namespace Deck
                 if(shuffleDeck[i] != initialState[i])
                 {
                     match = false;
-                    break;
                 }
             }
 
@@ -110,19 +116,19 @@ namespace Deck
                 tempDeck[i] = "";
             }
 
-            for (int x = 0; x < 25; x++)
+            for (int x = 0; x < 26; x++)
             {
                 deckHalf1[x] = shuffleDeck[x];
             }
 
-            for (int y = 26; y < 51; y++)
+            for (int y = 26; y < 52; y++)
             {
                 deckHalf2[z] = shuffleDeck[y];
                 z++;
 
             }
 
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 26; i++)
             {
                 tempDeck[j] = deckHalf1[i];
 
@@ -142,7 +148,7 @@ namespace Deck
             {
                 for (int x = 0; x < 13; x++)
                 {
-                    Console.WriteLine(deck[(i * 13) + x] + " ");
+                    Console.Write(deck[(i * 13) + x] + " ");
                 }
             }
         }
